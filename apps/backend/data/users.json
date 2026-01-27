@@ -1,0 +1,16 @@
+[
+  {
+    "id": "887bf315-5747-42ea-9984-1a681f0593de",
+    "name": "vasile",
+    "phone": "1234123412",
+    "email": "a@a.a",
+    "age": 32
+  },
+  {
+    "id": "3fd22d36-f8f1-4e29-a971-83d43bbcfc65",
+    "name": "ionel",
+    "phone": "0123456789",
+    "email": "mail@something.com",
+    "age": 69
+  }
+]
