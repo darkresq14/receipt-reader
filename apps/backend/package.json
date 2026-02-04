@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --exit-child server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "generate-types": "npx supabase gen types typescript --project-id \"akpbleypskyxfjeltjhs\" --schema public > ../../packages/shared-types/src/database.types.ts"
   },
   "keywords": [],
   "author": "",

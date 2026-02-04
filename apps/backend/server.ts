@@ -1,13 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import {
-  sumRouter,
-  healthRouter,
-  usersRouter,
-  conversationRouter,
-  messagesRouter,
-} from './routes';
+import { healthRouter, conversationRouter, messagesRouter } from './routes';
 
 dotenv.config();
 
@@ -19,9 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 const router = express.Router();
 
-router.use('/sum', sumRouter);
 router.use('/health', healthRouter);
-router.use('/users', usersRouter);
 router.use('/conversation', conversationRouter);
 router.use('/messages', messagesRouter);
 

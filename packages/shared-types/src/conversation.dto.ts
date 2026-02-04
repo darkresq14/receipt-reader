@@ -1,6 +1,6 @@
-import type { TablesRow, TablesInsert, TablesUpdate } from './database.types';
+import type { Tables, TablesInsert, TablesUpdate } from './database.types';
 
-type ConversationRow = TablesRow<'conversations'>;
+type ConversationRow = Tables<'conversations'>;
 type ConversationInsert = TablesInsert<'conversations'>;
 type ConversationUpdate = TablesUpdate<'conversations'>;
 

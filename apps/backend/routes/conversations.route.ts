@@ -37,11 +37,53 @@ router.get('/', async (req: Request, res: Response) => {
 /**
  * POST /api/conversation
  * Create a new conversation
+ * Body: { name?: string } - optional name for the conversation
  */
-router.post('/', async (_req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
-    const data = await conversationService.create();
+    const { name } = req.body;
+    const data = await conversationService.create(name);
     res.status(201).json(data as ConversationDTO);
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
+/**
+ * GET /api/conversation/:conversationId
+ * Get a single conversation by ID
+ */
+router.get('/:conversationId', async (req: Request, res: Response) => {
+  try {
+    const { conversationId } = req.params;
+
+    if (!conversationId || typeof conversationId !== 'string') {
+      return res.status(400).json({ error: 'conversationId is required' });
+    }
+
+    const data = await conversationService.getById(conversationId);
+    res.json(data as ConversationDTO);
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
+/**
+ * PATCH /api/conversation/:conversationId
+ * Update a conversation by ID
+ * Body: { name?: string }
+ */
+router.patch('/:conversationId', async (req: Request, res: Response) => {
+  try {
+    const { conversationId } = req.params;
+    const updates = req.body;
+
+    if (!conversationId || typeof conversationId !== 'string') {
+      return res.status(400).json({ error: 'conversationId is required' });
+    }
+
+    const data = await conversationService.update(conversationId, updates);
+    res.json(data as ConversationDTO);
   } catch (error) {
     handleError(res, error);
   }
