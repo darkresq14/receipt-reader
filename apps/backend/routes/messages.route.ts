@@ -21,11 +21,11 @@ function handleError(res: Response, error: unknown, statusCode: number = 500) {
 /**
  * POST /api/messages
  * Create a new message
- * Body: { text: string, conversationId?: string, role?: number }
+ * Body: { text: string, conversationId?: string, role?: number, creatorName?: string }
  */
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { text, conversationId, role } = req.body as CreateMessageDTO;
+    const { text, conversationId, role, creatorName } = req.body as CreateMessageDTO;
 
     // Validation: text is required
     if (!text || typeof text !== 'string') {
@@ -42,7 +42,12 @@ router.post('/', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'role must be a number or null' });
     }
 
-    const data = await messagesService.create(text, conversationId ?? null, role ?? null);
+    // Optional: validate creatorName if provided
+    if (creatorName !== undefined && creatorName !== null && typeof creatorName !== 'string') {
+      return res.status(400).json({ error: 'creatorName must be a string or null' });
+    }
+
+    const data = await messagesService.create(text, conversationId ?? null, role ?? null, creatorName ?? null);
     res.status(201).json(data as MessageDTO);
   } catch (error) {
     handleError(res, error);
@@ -97,7 +102,7 @@ router.get('/:conversationId', async (req: Request, res: Response) => {
 /**
  * PUT /api/messages/:id
  * Update a message by ID
- * Body: { text?: string, conversationId?: string | null, role?: number | null }
+ * Body: { text?: string, conversationId?: string | null, role?: number | null, creatorName?: string | null }
  */
 router.put('/:id', async (req: Request, res: Response) => {
   try {
@@ -109,8 +114,8 @@ router.put('/:id', async (req: Request, res: Response) => {
     }
 
     // Validate at least one field is provided
-    if (body.text === undefined && body.conversationId === undefined && body.role === undefined) {
-      return res.status(400).json({ error: 'At least one field (text, conversationId, role) must be provided' });
+    if (body.text === undefined && body.conversationId === undefined && body.role === undefined && body.creatorName === undefined) {
+      return res.status(400).json({ error: 'At least one field (text, conversationId, role, creatorName) must be provided' });
     }
 
     // Validate text if provided
@@ -128,11 +133,17 @@ router.put('/:id', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'role must be a number or null' });
     }
 
+    // Validate creatorName if provided
+    if (body.creatorName !== undefined && body.creatorName !== null && typeof body.creatorName !== 'string') {
+      return res.status(400).json({ error: 'creatorName must be a string or null' });
+    }
+
     // Convert camelCase to snake_case for database
     const updates = {
       ...(body.text !== undefined && { text: body.text }),
       ...(body.conversationId !== undefined && { conversation_id: body.conversationId }),
       ...(body.role !== undefined && { role: body.role }),
+      ...(body.creatorName !== undefined && { creator_name: body.creatorName }),
     };
 
     const data = await messagesService.update(id, updates);

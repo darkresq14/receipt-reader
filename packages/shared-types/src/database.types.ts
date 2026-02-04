@@ -36,6 +36,7 @@ export type Database = {
         Row: {
           conversation_id: string | null
           created_at: string
+          creator_name: string | null
           id: string
           role: number | null
           text: string | null
@@ -43,6 +44,7 @@ export type Database = {
         Insert: {
           conversation_id?: string | null
           created_at?: string
+          creator_name?: string | null
           id?: string
           role?: number | null
           text?: string | null
@@ -50,6 +52,7 @@ export type Database = {
         Update: {
           conversation_id?: string | null
           created_at?: string
+          creator_name?: string | null
           id?: string
           role?: number | null
           text?: string | null

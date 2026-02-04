@@ -1,5 +1,5 @@
+import { Database } from '@receipt-reader/shared-types';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../types/database.types';
 import dotenv from 'dotenv';
 
 dotenv.config();

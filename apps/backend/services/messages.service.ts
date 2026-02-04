@@ -10,12 +10,14 @@ export class MessagesService {
    * @param text - Message text content
    * @param conversationId - Associated conversation ID
    * @param role - Message role (e.g., user, assistant, system)
+   * @param creatorName - Name of the user who created the message
    * @returns The created message
    */
   async create(
     text: string,
     conversationId: string | null,
     role: number | null,
+    creatorName: string | null = null,
   ) {
     const { data, error } = await supabase
       .from('messages')
@@ -23,6 +25,7 @@ export class MessagesService {
         text,
         conversation_id: conversationId,
         role,
+        creator_name: creatorName,
       })
       .select()
       .single();
@@ -99,7 +102,7 @@ export class MessagesService {
   /**
    * Update a message by ID
    * @param messageId - The message ID to update
-   * @param updates - Fields to update (text, conversation_id, role)
+   * @param updates - Fields to update (text, conversation_id, role, creator_name)
    * @returns The updated message
    */
   async update(
@@ -108,6 +111,7 @@ export class MessagesService {
       text?: string | null;
       conversation_id?: string | null;
       role?: number | null;
+      creator_name?: string | null;
     },
   ) {
     const { data, error } = await supabase
