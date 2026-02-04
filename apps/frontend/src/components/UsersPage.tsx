@@ -12,7 +12,7 @@ export default function UsersPage() {
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        const response = await fetch('/api/backend-status');
+        const response = await fetch('/api/health');
         if (response.ok) {
           const data = await response.json();
           setBackendStatus(data);

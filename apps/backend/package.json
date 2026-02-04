@@ -14,6 +14,7 @@
   "packageManager": "pnpm@10.15.1",
   "dependencies": {
     "@receipt-reader/shared-types": "workspace:*",
+    "@supabase/supabase-js": "^2.93.3",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1"

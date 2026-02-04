@@ -1,0 +1,96 @@
+### Messages API Tests
+
+### POST /api/messages - Create a new message (with conversation)
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "text": "Hello, this is a test message!",
+  "conversationId": "426bcb40-87e6-44db-abda-3e8ffce13aec",
+  "role": 1
+}
+
+###
+
+### POST /api/messages - Create a new message (without conversation)
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "text": "Standalone message without conversation",
+  "conversationId": null,
+  "role": 0
+}
+
+###
+
+### POST /api/messages - Create message with only required field
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "text": "Minimal message"
+}
+
+###
+
+### POST /api/messages - Error: Missing text field (should return 400)
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "conversationId": "426bcb40-87e6-44db-abda-3e8ffce13aec",
+  "role": 1
+}
+
+###
+
+### POST /api/messages - Error: Invalid conversationId type (should return 400)
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "text": "Test message",
+  "conversationId": "123",
+  "role": 1
+}
+
+###
+
+### GET /api/messages - Get all messages (default limit 100)
+GET http://localhost:3000/api/messages
+
+###
+
+### GET /api/messages - Get messages with custom limit
+GET http://localhost:3000/api/messages?limit=10
+
+###
+
+### GET /api/messages - Error: Invalid limit (should return 400)
+GET http://localhost:3000/api/messages?limit=invalid
+
+###
+
+### GET /api/messages - Error: Limit too high (should return 400)
+GET http://localhost:3000/api/messages?limit=5000
+
+###
+
+### GET /api/messages/:conversationId - Get messages by conversation ID
+GET http://localhost:3000/api/messages/426bcb40-87e6-44db-abda-3e8ffce13aec
+
+###
+
+### GET /api/messages/:conversationId - Get messages by conversation ID with limit
+GET http://localhost:3000/api/messages/426bcb40-87e6-44db-abda-3e8ffce13aec?limit=5
+
+###
+
+### DELETE /api/messages/:messageId - Delete a message by ID
+DELETE http://localhost:3000/api/messages/some-message-id
+
+###
+
+### DELETE /api/messages/:messageId - Error: Invalid message ID format
+DELETE http://localhost:3000/api/messages/

@@ -1,0 +1,64 @@
+### Conversations API Tests
+
+### POST /api/conversation - Create a new conversation
+POST http://localhost:3000/api/conversation
+Content-Type: application/json
+
+###
+
+### GET /api/conversation - Get all conversations (default limit 100)
+GET http://localhost:3000/api/conversation
+
+###
+
+### GET /api/conversation - Get conversations with custom limit
+GET http://localhost:3000/api/conversation?limit=10
+
+###
+
+### GET /api/conversation - Error: Invalid limit (should return 400)
+GET http://localhost:3000/api/conversation?limit=invalid
+
+###
+
+### GET /api/conversation - Error: Limit too high (should return 400)
+GET http://localhost:3000/api/conversation?limit=5000
+
+###
+
+### DELETE /api/conversation/:conversationId - Delete a conversation by ID
+DELETE http://localhost:3000/api/conversation/some-conversation-id
+
+###
+
+### Complete workflow example:
+### 1. Create a conversation (copy the returned id)
+### 2. Add messages to that conversation
+### 3. Get messages by conversation ID
+### 4. Delete the conversation (cascades to messages)
+
+### POST - Create conversation
+POST http://localhost:3000/api/conversation
+Content-Type: application/json
+
+###
+
+### POST - Add message to the created conversation (replace {conversation_id} with actual id)
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "text": "Hello from the test suite!",
+  "conversationId": "{conversation_id}",
+  "role": 1
+}
+
+###
+
+### GET - Get messages for this conversation
+GET http://localhost:3000/api/messages/{conversation_id}
+
+###
+
+### DELETE - Delete the conversation
+DELETE http://localhost:3000/api/conversation/{conversation_id}
